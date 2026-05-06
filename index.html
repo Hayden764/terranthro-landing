@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terranthro</title>
+  <meta name="description" content="New wave cartography. Climate, soil, terrain — the data that shapes a place." />
+  <meta name="theme-color" content="#080A0F" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/src/styles/tokens.css" />
+  <link rel="stylesheet" href="/src/styles/style.css" />
+</head>
+<body>
+  <!-- ── 01 · TERRAIN ── full-bleed wireframe DEM ── -->
+  <canvas id="terrain" aria-hidden="true"></canvas>
+
+  <!-- ── 02 · CROSSHAIR ── hairline registration marks tracking cursor ── -->
+  <div id="crosshair" aria-hidden="true">
+    <div class="ch-h"></div>
+    <div class="ch-v"></div>
+  </div>
+
+  <!-- ── 03 · TL · LIVE COORDINATE READOUT ── -->
+  <header class="readout readout--tl" aria-label="cursor coordinates">
+    <span class="rd-label">LAT</span>
+    <span class="rd-mono" id="lat">45.3418&deg; N</span>
+    <span class="rd-sep">·</span>
+    <span class="rd-label">LON</span>
+    <span class="rd-mono" id="lon">123.1854&deg; W</span>
+  </header>
+
+  <!-- ── 04 · TR · DUAL CLOCK ── -->
+  <div class="readout readout--tr" aria-label="local and UTC time">
+    <span class="rd-label">LOCAL</span>
+    <span class="rd-mono" id="clock-local">--:--:--</span>
+    <span class="rd-sep">·</span>
+    <span class="rd-label">UTC</span>
+    <span class="rd-mono" id="clock-utc">--:--:--</span>
+  </div>
+
+  <!-- ── 05 · CENTER · WORDMARK + DESCRIPTOR ── -->
+  <main class="hero">
+    <h1 class="wordmark" id="wordmark" aria-label="Terranthro">TERRANTHRO</h1>
+    <p class="descriptor">
+      <em>A geospatial practice for the places<br />
+      that shape what we grow, drink, and live with.</em>
+    </p>
+    <p class="etymology" id="etymology" aria-hidden="true">
+      <span class="etym-pair">
+        <span class="etym-term">TERRA</span>
+        <span class="etym-sep">&middot;</span>
+        <span class="etym-gloss">earth</span>
+      </span>
+      <span class="etym-plus">+</span>
+      <span class="etym-pair">
+        <span class="etym-term">ANTHROPOS</span>
+        <span class="etym-sep">&middot;</span>
+        <span class="etym-gloss">human</span>
+      </span>
+    </p>
+  </main>
+
+  <!-- ── 06 · BL · LINK · WVWA ── -->
+  <a class="readout readout--bl readout--link" href="https://wvwa.terranthro.com" aria-label="Willamette Valley Wine Atlas">
+    <span class="rd-label">LINK &middot; 01</span>
+    <span class="readout-target" data-text="WVWA &rarr;">WVWA &rarr;</span>
+  </a>
+
+  <!-- ── 07 · BC · BEARING (compass — rotates with camera yaw) ── -->
+  <div class="readout readout--bc" aria-label="camera bearing">
+    <span class="rd-label">BEARING</span>
+    <span class="rd-mono">
+      <span id="compass-card">N</span>
+      <span class="rd-sep">&middot;</span>
+      <span id="compass-deg">000&deg;</span>
+    </span>
+  </div>
+
+  <!-- ── 08 · BR · OPERATOR ── -->
+  <a class="readout readout--br readout--link" href="mailto:hayden@terranthro.com" aria-label="contact Hayden Smith">
+    <span class="rd-label">OPERATOR</span>
+    <span class="readout-target">HAYDEN@TERRANTHRO.COM</span>
+  </a>
+
+  <!-- ── 09 · TOP CENTER · status pill ── -->
+  <footer class="footer-meta" aria-hidden="true">
+    <span class="status-dot"></span>
+    <span class="rd-label">OBSERVATORY &middot; ACTIVE</span>
+  </footer>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
