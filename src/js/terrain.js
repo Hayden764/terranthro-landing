@@ -36,23 +36,25 @@ const CURSOR_RADIUS = 12;
 const CURSOR_BUMP   = 2.4;
 
 /* ── Camera (orbit) ────────────────────────────────────────────────────── */
-const ORBIT_RADIUS  = 17;        // distance from look-at
+const ORBIT_RADIUS  = 11;        // closer in — immersed amongst the waves
 const DEFAULT_YAW   = 0;
-const DEFAULT_PITCH = 0.595;     // ~34° above horizon (matches old hard-coded look)
+const DEFAULT_PITCH = 0.18;      // ~10° — nearly horizon level
 
 const PARALLAX_YAW   = 0.18;     // ±10° when cursor is in a corner
-const PARALLAX_PITCH = 0.08;     // ±4.5°
+const PARALLAX_PITCH = 0.06;     // ±3.4°
 
-const PITCH_MIN = 0.15;          // ~9° (don't dip below the mesh)
-const PITCH_MAX = 1.20;          // ~69° (don't go straight overhead)
+const PITCH_MIN = 0.08;          // ~4.6° — allow very low
+const PITCH_MAX = 0.72;          // ~41° — no steep overhead angles
 
 const DRAG_YAW_RATE   = 0.005;   // rad per pixel
 const DRAG_PITCH_RATE = 0.003;
 
-const IDLE_THRESHOLD_MS = 6000;
-const DRIFT_FREQ_RAD_S  = 0.10;  // rad/s on the slow axis
-const DRIFT_YAW_AMP     = 0.40;  // ±23°
-const DRIFT_PITCH_AMP   = 0.10;  // ±5.7°
+const IDLE_THRESHOLD_MS   = 6000;   // ms before drift starts
+const WANDER_THRESHOLD_MS = 18000;  // ms of drift before camera wanders to a new angle
+const DRIFT_FREQ_RAD_S    = 0.08;   // rad/s on the slow axis — lazier orbit
+const DRIFT_YAW_AMP       = 0.35;   // ±20°
+const DRIFT_PITCH_AMP     = 0.22;   // ±12.6° — meaningful pitch dips and rises
+const WANDER_SPEED        = 0.00025; // slow creep toward next wander target
 
 /* ── Helpers ───────────────────────────────────────────────────────────── */
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
@@ -133,9 +135,32 @@ export function initTerrain(canvas) {
   let dragStartYaw    = 0;
   let dragStartPitch  = 0;
 
+  // Rest position — where the user last left the camera.
+  // Parallax and drift use this as their anchor instead of DEFAULT_*.
+  let restYaw   = DEFAULT_YAW;
+  let restPitch = DEFAULT_PITCH;
+
   // Idle / drift state.
   let lastInputT      = performance.now();
   let driftPhaseStart = 0;
+
+  // Wander state — procedurally chosen target the rest position migrates toward.
+  let wanderTargetYaw   = DEFAULT_YAW;
+  let wanderTargetPitch = DEFAULT_PITCH;
+  let isWandering       = false;
+
+  function pickNewWanderTarget() {
+    // Yaw wanders ±1.2 rad from current rest for a gradual pan.
+    wanderTargetYaw = restYaw + (Math.random() * 2.4 - 1.2);
+    // Pitch biased heavily toward the low end — spend most time near the horizon.
+    // 80% chance: low band (PITCH_MIN .. 0.32), 20% chance: mid band (0.32 .. PITCH_MAX)
+    if (Math.random() < 0.8) {
+      wanderTargetPitch = PITCH_MIN + Math.random() * (0.32 - PITCH_MIN);
+    } else {
+      wanderTargetPitch = 0.32 + Math.random() * (PITCH_MAX - 0.32);
+    }
+    isWandering = true;
+  }
 
   // Externally-readable state (chrome.js reads `state.yaw`).
   const state = {
@@ -189,6 +214,12 @@ export function initTerrain(canvas) {
     state.isDragging = false;
     lastInputT       = performance.now();
     document.body.classList.remove('is-dragging');
+    // Save where the user left the camera so parallax/drift anchor here.
+    restYaw   = yaw;
+    restPitch = pitch;
+    // Reset wander so next drift cycle picks a fresh target from the new rest.
+    isWandering   = false;
+    driftPhaseStart = 0;
   }
 
   window.addEventListener('pointermove',   onPointerMove, { passive: true });
@@ -233,7 +264,8 @@ export function initTerrain(canvas) {
     const t = now * TIME_SCALE;
 
     /* Smooth NDC for terrain bulge & parallax. */
-    const k = 1 - Math.pow(0.001, dt / 1000);   // frame-rate-independent ease (~0.06 @ 60fps)
+    const k    = 1 - Math.pow(0.001, dt / 1000);   // fast — mouse / bulge tracking
+    const camK = 1 - Math.pow(0.22,  dt / 1000);   // slow — camera angle easing (~2.5% @ 60fps)
     mouseSmoothNDC.x += (mouseNDC.x - mouseSmoothNDC.x) * k;
     mouseSmoothNDC.y += (mouseNDC.y - mouseSmoothNDC.y) * k;
 
@@ -245,23 +277,44 @@ export function initTerrain(canvas) {
       state.isDrifting = false;
       driftPhaseStart  = 0;
     } else if (idleMs > IDLE_THRESHOLD_MS) {
-      // Drift mode — slow ellipse orbit.
+      // Drift mode — slow ellipse orbit around restYaw/restPitch.
       if (driftPhaseStart === 0) driftPhaseStart = now;
-      const driftT = (now - driftPhaseStart) * 0.001 * DRIFT_FREQ_RAD_S;
-      targetYaw   = DEFAULT_YAW   + Math.sin(driftT)         * DRIFT_YAW_AMP;
-      targetPitch = DEFAULT_PITCH + Math.cos(driftT * 0.7)   * DRIFT_PITCH_AMP;
+      const driftElapsed = now - driftPhaseStart;
+      const driftT = driftElapsed * 0.001 * DRIFT_FREQ_RAD_S;
+
+      // After WANDER_THRESHOLD_MS of drifting, migrate rest toward a new angle.
+      if (driftElapsed > WANDER_THRESHOLD_MS) {
+        if (!isWandering) pickNewWanderTarget();
+        // Slowly lerp rest position toward the wander target.
+        restYaw   += (wanderTargetYaw   - restYaw)   * WANDER_SPEED * dt;
+        restPitch += (wanderTargetPitch - restPitch) * WANDER_SPEED * dt;
+        restPitch  = clamp(restPitch, PITCH_MIN, PITCH_MAX);
+        // When close enough, pick the next target.
+        const dyaw = Math.abs(wanderTargetYaw - restYaw);
+        const dpitch = Math.abs(wanderTargetPitch - restPitch);
+        if (dyaw < 0.05 && dpitch < 0.02) {
+          pickNewWanderTarget();
+          driftPhaseStart = now;   // reset so wander timer fires again after WANDER_THRESHOLD_MS
+        }
+      }
+
+      targetYaw   = restYaw   + Math.sin(driftT)       * DRIFT_YAW_AMP;
+      targetPitch = restPitch + Math.cos(driftT * 0.7) * DRIFT_PITCH_AMP;
+      targetPitch = clamp(targetPitch, PITCH_MIN, PITCH_MAX);
       state.isDrifting = true;
     } else {
-      // Parallax mode — small cursor-driven offset from defaults.
+      // Parallax mode — small cursor-driven offset from rest position.
       driftPhaseStart  = 0;
+      isWandering      = false;
       state.isDrifting = false;
-      targetYaw   = DEFAULT_YAW   + mouseSmoothNDC.x * PARALLAX_YAW;
-      targetPitch = DEFAULT_PITCH + mouseSmoothNDC.y * PARALLAX_PITCH;
+      targetYaw   = restYaw   + mouseSmoothNDC.x * PARALLAX_YAW;
+      targetPitch = restPitch + mouseSmoothNDC.y * PARALLAX_PITCH;
+      targetPitch = clamp(targetPitch, PITCH_MIN, PITCH_MAX);
     }
 
-    // Ease current angles toward target.
-    yaw   += (targetYaw   - yaw)   * k;
-    pitch += (targetPitch - pitch) * k;
+    // Ease current angles toward target (slow smooth camera, not fast mouse k).
+    yaw   += (targetYaw   - yaw)   * camK;
+    pitch += (targetPitch - pitch) * camK;
 
     /* Apply to camera so the raycast below uses fresh matrices. */
     applyCameraFromAngles();
