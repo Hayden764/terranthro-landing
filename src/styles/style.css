@@ -21,6 +21,108 @@ html, body {
 
 a { color: inherit; text-decoration: none; }
 
+/* ── 00 · Accessibility primitives ── */
+:focus-visible {
+  outline: 2px solid var(--color-electric-blue);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-electric-blue);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--color-parchment);
+  transform: translateY(calc(-100% - var(--space-3)));
+}
+.skip-link:focus { transform: none; }
+
+/* Primary nav · indexed text links with a hairline that draws in on hover
+ * (landing hero + content pages). The ink halo keeps text legible where a
+ * bright ridgeline passes behind it. */
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-3);
+  list-style: none;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  position: relative;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+  text-shadow: var(--halo);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color var(--t-base) var(--ease-out),
+              text-shadow var(--t-base) var(--ease-out);
+}
+.nav-index {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.nav-link:hover {
+  color: var(--color-electric-blue);
+  text-shadow: var(--halo), var(--glow-blue);
+}
+.nav-link:hover::after { transform: scaleX(1); }
+.nav-link[aria-current="page"] { color: var(--color-parchment); }
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+  background: var(--color-parchment);
+}
+
+/* Theme toggle · same voice as the nav, sun/moon glyph as the index */
+.theme-toggle .nav-index svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+  transform: translateY(1px);
+}
+
 /* ── 01 · Terrain canvas ── */
 #terrain {
   position: fixed;
@@ -110,12 +212,17 @@ a { color: inherit; text-decoration: none; }
   transition: color var(--t-base) var(--ease-out),
               text-shadow var(--t-base) var(--ease-out);
 }
-.readout--link:hover .readout-target {
+/* Links carry meaning, so they use the AA-passing muted tone rather than ghost. */
+.readout--link .rd-label,
+.readout--link .readout-target { color: var(--color-muted-text); }
+.readout--link:hover .readout-target,
+.readout--link:focus-visible .readout-target {
   color: var(--color-electric-blue);
   text-shadow: var(--glow-blue);
 }
-.readout--link:hover .rd-label {
-  color: var(--color-muted);
+.readout--link:hover .rd-label,
+.readout--link:focus-visible .rd-label {
+  color: var(--color-parchment);
 }
 
 /* ── 04 · Hero · wordmark + descriptor ── */
@@ -153,7 +260,8 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   font-size: clamp(16px, 1.8vw, 21px);
   line-height: 1.65;
-  color: var(--color-muted);
+  color: var(--color-muted-text);
+  text-shadow: var(--halo);
   max-width: 540px;
   margin: 0 0 var(--space-2);
 }
@@ -170,6 +278,104 @@ a { color: inherit; text-decoration: none; }
   transition: opacity var(--t-slow) var(--ease-out);
 }
 .etymology.is-visible { opacity: 1; }
+
+/* Hero nav · sits under the etymology line */
+.hero-nav {
+  margin-top: var(--space-4);
+  pointer-events: auto;
+  animation: fadeUp 1.0s 0.55s var(--ease-out) both;
+}
+/* Grid with equal tracks: both links take the width of the wider one,
+ * side by side or stacked. */
+.hero-nav .nav-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* Framed hero links · registration-mark corners (the same marks the
+ * crosshair draws) signal "this is the control" at the center of the page. */
+.hero-link {
+  --mark: var(--color-muted-text);
+  --mark-x: 20%;   /* horizontal corner strokes · a fifth of the width */
+  --mark-y: 20%;   /* vertical corner strokes · a fifth of the height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  padding: 16px 28px 18px;
+  background:
+    linear-gradient(var(--mark), var(--mark)) top    left  / var(--mark-x) 1px no-repeat,
+    linear-gradient(var(--mark), var(--mark)) top    left  / 1px var(--mark-y) no-repeat,
+    linear-gradient(var(--mark), var(--mark)) top    right / var(--mark-x) 1px no-repeat,
+    linear-gradient(var(--mark), var(--mark)) top    right / 1px var(--mark-y) no-repeat,
+    linear-gradient(var(--mark), var(--mark)) bottom left  / var(--mark-x) 1px no-repeat,
+    linear-gradient(var(--mark), var(--mark)) bottom left  / 1px var(--mark-y) no-repeat,
+    linear-gradient(var(--mark), var(--mark)) bottom right / var(--mark-x) 1px no-repeat,
+    linear-gradient(var(--mark), var(--mark)) bottom right / 1px var(--mark-y) no-repeat,
+    rgb(var(--ink-rgb) / 0.72);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border-radius: 2px;
+  text-align: center;
+  transition: --mark-x var(--t-slow) var(--ease-out),
+              --mark-y var(--t-slow) var(--ease-out);
+}
+/* Registered so the stroke lengths animate. */
+@property --mark-x {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 20%;
+}
+@property --mark-y {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 20%;
+}
+
+.hero-link-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--color-muted-text);
+}
+.hero-link-label {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--color-parchment);
+  transition: color var(--t-base) var(--ease-out),
+              text-shadow var(--t-base) var(--ease-out);
+}
+.hero-link-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+  transition: color var(--t-base) var(--ease-out);
+}
+
+.hero-link:hover,
+.hero-link:focus-visible {
+  /* Corners grow until they meet: a full frame around the link. */
+  --mark: var(--color-electric-blue);
+  --mark-x: calc(50% + 1px);
+  --mark-y: calc(50% + 1px);
+}
+.hero-link:hover .hero-link-label,
+.hero-link:focus-visible .hero-link-label {
+  color: var(--color-electric-blue);
+  text-shadow: var(--glow-blue);
+}
+.hero-link:hover .hero-link-sub,
+.hero-link:focus-visible .hero-link-sub { color: var(--color-parchment); }
 
 .etym-pair {
   display: inline-flex;
@@ -287,6 +493,9 @@ body.is-dragging * { cursor: grabbing !important; }
   }
   .rd-mono, .readout-target { font-size: 10px; }
   .descriptor { padding: 0 var(--space-3); }
+  .hero-nav .nav-list { grid-auto-flow: row; }   /* stack */
+  .hero-link { padding: 14px 24px 16px; }
+  .hero-link-label { font-size: 26px; }
   .wordmark   { letter-spacing: 0.1em; }
 }
 

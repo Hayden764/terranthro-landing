@@ -13,6 +13,21 @@
   --color-parchment:      #E8E2D6;
   --color-muted:          #6B7185;
   --color-ghost:          #2A2E3C;
+  /* Muted, lifted to pass WCAG AA (6.2:1 on ink). Use for readable
+   * secondary text; --color-muted (4.1:1) fails AA at body sizes. */
+  --color-muted-text:     #8A90A3;
+  /* Ink as space-separated RGB, for translucent scrims/panels:
+   * rgb(var(--ink-rgb) / 0.8). */
+  --ink-rgb:              8 10 15;
+  /* Background-colored halo behind text that floats over the terrain. */
+  --halo: 0 0 6px rgb(var(--ink-rgb)), 0 0 14px rgb(var(--ink-rgb));
+
+  /* ── Terrain (read by terrain.js on load and on theme change) ── */
+  --terrain-bg:           #080A0F;
+  --terrain-line:         #1A1D28;
+  --terrain-peak:         #2E9BFF;
+
+  color-scheme: dark;
 
   /* ── Accent palette (semantic by domain) ── */
   --color-electric-blue:  #2E9BFF;  /* climate · CTAs · live data */
@@ -54,4 +69,69 @@
   --t-fast:   0.18s;
   --t-base:   0.22s;
   --t-slow:   0.6s;
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────
+ * Follows the OS setting unless the visitor picks one with the toggle
+ * (theme.js sets data-theme on <html>). Same values in both blocks. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --color-ink:            #F3F0E9;
+    --color-surface:        #ECE8DF;
+    --color-surface-raised: #E6E1D6;
+    --color-border:         #D6D0C3;
+    --color-parchment:      #16181F;
+    --color-muted:          #7A7F8E;
+    --color-ghost:          #BDB8AC;
+    --color-muted-text:     #555A69;   /* 6.0:1 on paper */
+    --ink-rgb:              243 240 233;
+
+    --color-electric-blue:  #0B5FBA;   /* darkened for 5.5:1 on paper */
+    --color-vivid-green:    #1F9E55;
+    --color-amber:          #B0662F;
+
+    /* Glows read as smudges on paper; signal states rely on color alone.
+   * Transparent (not `none`) so they still compose in shadow lists. */
+    --glow-blue: 0 0 0 transparent;
+    --glow-green: 0 0 0 transparent;
+    --glow-crimson: 0 0 0 transparent;
+    --glow-amber: 0 0 0 transparent;
+    --glow-violet: 0 0 0 transparent;
+
+    --terrain-bg:           #F3F0E9;
+    --terrain-line:         #C9C3B6;
+    --terrain-peak:         #2E9BFF;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-ink:            #F3F0E9;
+  --color-surface:        #ECE8DF;
+  --color-surface-raised: #E6E1D6;
+  --color-border:         #D6D0C3;
+  --color-parchment:      #16181F;
+  --color-muted:          #7A7F8E;
+  --color-ghost:          #BDB8AC;
+  --color-muted-text:     #555A69;   /* 6.0:1 on paper */
+  --ink-rgb:              243 240 233;
+
+  --color-electric-blue:  #0B5FBA;   /* darkened for 5.5:1 on paper */
+  --color-vivid-green:    #1F9E55;
+  --color-amber:          #B0662F;
+
+  /* Glows read as smudges on paper; signal states rely on color alone.
+   * Transparent (not `none`) so they still compose in shadow lists. */
+  --glow-blue: 0 0 0 transparent;
+  --glow-green: 0 0 0 transparent;
+  --glow-crimson: 0 0 0 transparent;
+  --glow-amber: 0 0 0 transparent;
+  --glow-violet: 0 0 0 transparent;
+
+  --terrain-bg:           #F3F0E9;
+  --terrain-line:         #C9C3B6;
+  --terrain-peak:         #2E9BFF;
 }

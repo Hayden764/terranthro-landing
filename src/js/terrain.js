@@ -19,9 +19,16 @@ import * as THREE from 'three';
 import { createNoise2D } from 'simplex-noise';
 
 /* ── Visual tokens ─────────────────────────────────────────────────────── */
-const COLOR_BORDER = 0x1A1D28;
-const COLOR_PEAK   = 0x2E9BFF;
-const COLOR_INK    = 0x080A0F;
+// Colors come from --terrain-* in tokens.css so they follow light/dark.
+function readThemeColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const get = (name) => new THREE.Color(cs.getPropertyValue(name).trim());
+  return {
+    bg:   get('--terrain-bg'),
+    line: get('--terrain-line'),
+    peak: get('--terrain-peak'),
+  };
+}
 
 /* ── Mesh ──────────────────────────────────────────────────────────────── */
 const SIZE          = 60;
@@ -62,7 +69,7 @@ const smoothstep = (t) => t * t * (3 - 2 * t);
 
 /* ───────────────────────────────────────────────────────────────────────── */
 
-export function initTerrain(canvas) {
+export function initTerrain(canvas, { drag = true } = {}) {
   const noise2D = createNoise2D();
 
   /* ── Renderer / scene / camera ─────────────────────────────────────── */
@@ -73,10 +80,11 @@ export function initTerrain(canvas) {
     powerPreference: 'high-performance',
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(COLOR_INK, 1);
+  const theme = readThemeColors();
+  renderer.setClearColor(theme.bg, 1);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(COLOR_INK, 18, 36);
+  scene.fog = new THREE.Fog(theme.bg, 18, 36);
 
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
 
@@ -90,8 +98,8 @@ export function initTerrain(canvas) {
   const colors = new Float32Array(vertCount * 3);
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  const baseColor = new THREE.Color(COLOR_BORDER);
-  const peakColor = new THREE.Color(COLOR_PEAK);
+  const baseColor = theme.line.clone();
+  const peakColor = theme.peak.clone();
   const tmpColor  = new THREE.Color();
   for (let i = 0; i < vertCount; i++) {
     colors[i * 3]     = baseColor.r;
@@ -196,6 +204,7 @@ export function initTerrain(canvas) {
   }
 
   function onPointerDown(e) {
+    if (!drag) return;              // content pages: leave text selectable
     if (e.button !== undefined && e.button !== 0) return;
     if (isInteractive(e.target)) return;
     isDragging      = true;
@@ -254,6 +263,18 @@ export function initTerrain(canvas) {
   // Color-blend thresholds (world-space y).
   const PEAK_LO = 0.4;
   const PEAK_HI = 1.9;
+
+  // Height → blend toward peak color.
+  function colorVertex(i, y) {
+    let heightT = (y - PEAK_LO) / (PEAK_HI - PEAK_LO);
+    if (heightT < 0) heightT = 0;
+    else if (heightT > 1) heightT = 1;
+    tmpColor.copy(baseColor).lerp(peakColor, heightT * 0.7);
+    const ci = i * 3;
+    colors[ci]     = tmpColor.r;
+    colors[ci + 1] = tmpColor.g;
+    colors[ci + 2] = tmpColor.b;
+  }
 
   let frameId = 0;
   let lastT   = performance.now();
@@ -353,17 +374,7 @@ export function initTerrain(canvas) {
       }
 
       positions.setY(i, y);
-
-      // Height → blend toward peak color.
-      let heightT = (y - PEAK_LO) / (PEAK_HI - PEAK_LO);
-      if (heightT < 0) heightT = 0;
-      else if (heightT > 1) heightT = 1;
-      const blend = heightT * 0.7;
-      tmpColor.copy(baseColor).lerp(peakColor, blend);
-      const ci = i * 3;
-      colors[ci]     = tmpColor.r;
-      colors[ci + 1] = tmpColor.g;
-      colors[ci + 2] = tmpColor.b;
+      colorVertex(i, y);
     }
     positions.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
@@ -387,8 +398,10 @@ export function initTerrain(canvas) {
         noise2D(xs[i] * NOISE_SCALE,   zs[i] * NOISE_SCALE)   * NOISE_AMP +
         noise2D(xs[i] * NOISE_SCALE_2, zs[i] * NOISE_SCALE_2) * NOISE_AMP_2;
       positions.setY(i, y);
+      colorVertex(i, y);
     }
     positions.needsUpdate = true;
+    geometry.attributes.color.needsUpdate = true;
     yaw = DEFAULT_YAW;
     pitch = DEFAULT_PITCH;
     applyCameraFromAngles();
@@ -398,6 +411,23 @@ export function initTerrain(canvas) {
   }
   reduce.addEventListener('change', applyReducedMotion);
   applyReducedMotion();
+
+  /* ── Theme · recolor on light/dark switch ──────────────────────────── */
+  function applyTheme() {
+    const next = readThemeColors();
+    renderer.setClearColor(next.bg, 1);
+    scene.fog.color.copy(next.bg);
+    baseColor.copy(next.line);
+    peakColor.copy(next.peak);
+    // The animation loop recolors every frame; a paused (reduced-motion)
+    // scene needs its colors rebuilt and one frame drawn.
+    if (reduce.matches) {
+      for (let i = 0; i < vertCount; i++) colorVertex(i, positions.getY(i));
+      geometry.attributes.color.needsUpdate = true;
+      renderer.render(scene, camera);
+    }
+  }
+  document.addEventListener('themechange', applyTheme);
 
   /* ── Public API ────────────────────────────────────────────────────── */
   return {
@@ -410,6 +440,7 @@ export function initTerrain(canvas) {
       window.removeEventListener('pointercancel', onPointerUp);
       window.removeEventListener('resize',        resize);
       reduce.removeEventListener('change',        applyReducedMotion);
+      document.removeEventListener('themechange', applyTheme);
       geometry.dispose();
       material.dispose();
       renderer.dispose();

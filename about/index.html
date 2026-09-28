@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" class="page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About · Terranthro</title>
+  <meta name="description" content="Terranthro is a geospatial studio run by Hayden Smith, building maps of the climate, soil and terrain that shape a place." />
+  <meta name="theme-color" content="#080A0F" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F3F0E9" media="(prefers-color-scheme: light)" />
+  <!-- Apply a saved light/dark choice before first paint (see theme.js). -->
+  <script>
+    try {
+      var t = localStorage.getItem('terranthro-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/src/styles/tokens.css" />
+  <link rel="stylesheet" href="/src/styles/style.css" />
+  <link rel="stylesheet" href="/src/styles/page.css" />
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <canvas id="terrain" aria-hidden="true"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="site-mark" href="/">TERRANTHRO<span class="visually-hidden">, home</span></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/about/" aria-current="page"><span class="nav-index" aria-hidden="true">02</span>About</a></li>
+        <li><a class="nav-link" href="/projects/"><span class="nav-index" aria-hidden="true">03</span>Projects</a></li>
+        <li><button class="nav-link theme-toggle" type="button"><span class="nav-index" aria-hidden="true"></span><span class="visually-hidden">Switch to </span><span class="theme-label">Light</span><span class="visually-hidden"> mode</span></button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="content" class="doc" tabindex="-1">
+    <div class="doc-intro">
+      <p class="doc-kicker">
+        <span>Index</span>
+        <span class="rd-sep" aria-hidden="true">&middot;</span>
+        <span>02</span>
+      </p>
+      <h1 class="doc-title">About</h1>
+      <p class="doc-lede">
+        Terranthro is a geospatial studio in Oregon, run by Hayden Smith.
+      </p>
+    </div>
+
+    <section class="panel" aria-labelledby="a-studio">
+      <h2 id="a-studio">The studio</h2>
+      <p>
+        More and more of us live disconnected from the land around us. We
+        drive past hillsides, vineyards and river valleys every day without
+        knowing why they look the way they do, or what they hold. Terranthro
+        builds products to close that gap: maps and tools that show why a
+        place is the way it is, so the people who live, work and visit
+        there can understand it.
+      </p>
+      <p>
+        So far most of that work has been in wine, where the ground really
+        does show up in the glass. Slope, aspect, elevation, soil and the
+        warmth of a growing season all leave their mark, and a good map lets
+        you see them side by side.
+      </p>
+      <p>
+        We handle the whole stack, from raw data and processing through to
+        the interactive map in the browser. That means every layer on the
+        screen can be traced back to its source.
+      </p>
+    </section>
+
+    <section class="panel" aria-labelledby="a-name">
+      <h2 id="a-name">The name</h2>
+      <p class="name-parts">
+        <span class="etym-pair">
+          <span class="etym-term" lang="la">Terra</span>
+          <span class="etym-sep" aria-hidden="true">&middot;</span>
+          <span class="etym-gloss">earth</span>
+        </span>
+        <span class="etym-plus" aria-hidden="true">+</span>
+        <span class="etym-pair">
+          <span class="etym-term" lang="grc-Latn">Anthropos</span>
+          <span class="etym-sep" aria-hidden="true">&middot;</span>
+          <span class="etym-gloss">human</span>
+        </span>
+      </p>
+      <p>
+        The land and the people who live on it. Terranthro maps sit where
+        the two meet: the physical ground on one side, and on the other
+        everything people have built, farmed and drawn across it.
+      </p>
+    </section>
+
+    <section class="panel" aria-labelledby="a-contact">
+      <h2 id="a-contact">Work with us</h2>
+      <p>
+        If it happens on the ground, we can map it. Bring us a region, a
+        dataset or a question you can't answer yet. One vineyard or an
+        entire state, clean data or none at all, we'll find what's there
+        and build the map that shows it.
+      </p>
+      <p>
+        We're also glad to hear from people who want to build this kind of
+        work with us. Send a résumé and a note about what draws you to it.
+      </p>
+      <p>
+        Either way, email
+        <a href="mailto:hayden@terranthro.com">hayden@terranthro.com</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Terranthro &middot; Geospatial studio</span>
+    <a href="mailto:hayden@terranthro.com">hayden@terranthro.com</a>
+  </footer>
+
+  <script type="module" src="/src/js/page.js"></script>
+</body>
+</html>

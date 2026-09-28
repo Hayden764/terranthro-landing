@@ -1,0 +1,341 @@
+/* =========================================================================
+ *  Terranthro · content pages (about, projects)
+ *  Loaded after style.css. Same instrument-panel language, but the page
+ *  scrolls and text sits on a dimmed panel so it reads at WCAG AA over
+ *  the moving terrain.
+ * ========================================================================= */
+
+/* ── 01 · Scrolling document (style.css locks the landing to one viewport) ── */
+html.page,
+html.page body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+html.page body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Darkens the terrain behind the reading column. 0.72 is the floor that keeps
+ * --color-muted-text at ≥4.5:1 even over the brightest ridgeline pixel. */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(var(--ink-rgb) / 0.72), rgb(var(--ink-rgb) / 0.8) 40%, rgb(var(--ink-rgb) / 0.9));
+}
+
+/* ── 02 · Header · wordmark + primary nav ── */
+.site-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2);
+}
+
+.site-mark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--color-parchment);
+  padding: var(--space-1) 0;
+  transition: letter-spacing 0.8s var(--ease-out);
+}
+.site-mark:hover { letter-spacing: 0.18em; }
+
+
+/* ── 04 · Reading column ── */
+.doc {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--space-2) var(--space-8);
+}
+.doc:focus { outline: none; }
+
+.doc-intro {
+  padding: var(--space-8) 0 var(--space-6);
+  max-width: 680px;
+}
+
+.doc-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+  margin-bottom: var(--space-2);
+}
+.doc-kicker .rd-sep { color: var(--color-muted); }
+
+.doc-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 7vw, 76px);
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  color: var(--color-parchment);
+  margin-bottom: var(--space-3);
+  animation: fadeUp 1.0s 0.15s var(--ease-out) both;
+}
+
+.doc-lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.4vw, 24px);
+  line-height: 1.55;
+  color: var(--color-parchment);
+  animation: fadeUp 1.0s 0.35s var(--ease-out) both;
+}
+
+/* Instrument panel — dimmed glass so text clears AA over bright ridgelines. */
+.panel {
+  background: rgb(var(--ink-rgb) / 0.86);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  animation: fadeIn 0.9s 0.55s var(--ease-out) both;
+}
+.panel + .panel { margin-top: var(--space-3); }
+
+.panel h2,
+.panel h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 36px);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--color-parchment);
+  margin-bottom: var(--space-2);
+}
+.panel p {
+  color: var(--color-parchment);
+  max-width: 68ch;
+}
+.panel p + p { margin-top: var(--space-2); }
+
+.panel a:not(.project-link) {
+  color: var(--color-electric-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.panel a:not(.project-link):hover { text-shadow: var(--glow-blue); }
+
+/* ── 05 · Spec list (label / value rows) ── */
+.spec {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-hairline);
+}
+.spec dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+  padding-top: 3px;
+}
+.spec dd {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--color-parchment);
+}
+
+/* ── 06 · Projects ── */
+.project-group + .project-group { margin-top: var(--space-8); }
+
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.group-title::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--color-border);
+}
+.group-title .status { font-size: 13px; }
+
+.project-index {
+  margin-bottom: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-parchment);
+}
+.status .status-dot { animation: status-pulse 2.4s ease-in-out infinite; }
+.status--progress .status-dot {
+  background: var(--color-amber);
+  box-shadow: var(--glow-amber);
+}
+
+.project-client {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--color-muted-text);
+  margin: calc(var(--space-1) * -1) 0 var(--space-2);
+}
+
+.breakdown-title {
+  margin: var(--space-4) 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-text);
+}
+
+.breakdown {
+  list-style: none;
+  max-width: 68ch;
+}
+.breakdown li {
+  position: relative;
+  padding-left: var(--space-3);
+  color: var(--color-parchment);
+}
+.breakdown li + li { margin-top: var(--space-2); }
+/* Hairline tick in place of a bullet, like a survey mark. */
+.breakdown li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 12px;
+  height: 1px;
+  background: var(--color-electric-blue);
+}
+.breakdown strong {
+  font-weight: 500;
+  color: var(--color-parchment);
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: var(--space-3);
+  padding: 10px 16px;
+  border: 1px solid var(--color-electric-blue);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-electric-blue);
+  transition: box-shadow var(--t-base) var(--ease-out),
+              background var(--t-base) var(--ease-out);
+}
+.project-link:hover {
+  background: rgba(46,155,255,0.08);
+  box-shadow: var(--glow-blue);
+}
+.project-link .arrow { transition: transform var(--t-base) var(--ease-out); }
+.project-link:hover .arrow { transform: translateX(3px); }
+
+.project-note {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--color-muted-text);
+}
+
+/* ── 07 · Etymology block (about) ── */
+.name-parts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  margin: var(--space-2) 0 var(--space-3);
+}
+.name-parts .etym-term { font-size: 13px; color: var(--color-muted-text); }
+.name-parts .etym-gloss { font-size: 22px; }
+.name-parts .etym-sep,
+.name-parts .etym-plus { color: var(--color-muted); }
+
+/* ── 08 · Footer ── */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  border-top: var(--border-hairline);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--color-muted-text);
+}
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-muted-text);
+  transition: color var(--t-base) var(--ease-out),
+              text-shadow var(--t-base) var(--ease-out);
+}
+.site-footer a:hover {
+  color: var(--color-electric-blue);
+  text-shadow: var(--glow-blue);
+}
+
+/* ── 09 · Mobile ── */
+@media (max-width: 600px) {
+  .doc-intro { padding: var(--space-6) 0 var(--space-4); }
+  .panel { padding: var(--space-3) var(--space-2); }
+  .spec { grid-template-columns: 1fr; gap: 2px; }
+  .spec dd + dt { margin-top: var(--space-1); }
+}
