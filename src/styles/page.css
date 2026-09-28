@@ -122,7 +122,7 @@ html.page body {
 .panel h2,
 .panel h3 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 600;
   font-size: clamp(28px, 3.4vw, 36px);
   letter-spacing: 0.04em;
   line-height: 1.2;
