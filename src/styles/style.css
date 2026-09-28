@@ -90,7 +90,7 @@ a { color: inherit; text-decoration: none; }
 .nav-index {
   font-weight: 400;
   letter-spacing: 0.06em;
-  color: var(--color-muted);
+  color: var(--color-muted-text);
 }
 .nav-link::after {
   content: '';

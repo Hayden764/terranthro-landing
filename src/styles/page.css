@@ -107,6 +107,15 @@ html.page body {
   animation: fadeUp 1.0s 0.35s var(--ease-out) both;
 }
 
+.doc-note {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--color-muted-text);
+  animation: fadeUp 1.0s 0.45s var(--ease-out) both;
+}
+
 /* Instrument panel — dimmed glass so text clears AA over bright ridgelines. */
 .panel {
   background: rgb(var(--ink-rgb) / 0.86);
@@ -207,6 +216,10 @@ html.page body {
   color: var(--color-parchment);
 }
 .status .status-dot { animation: status-pulse 2.4s ease-in-out infinite; }
+.status--dev .status-dot {
+  background: var(--color-violet);
+  box-shadow: var(--glow-violet);
+}
 .status--progress .status-dot {
   background: var(--color-amber);
   box-shadow: var(--glow-amber);
