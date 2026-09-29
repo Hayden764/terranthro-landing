@@ -42,148 +42,153 @@
 
   <main id="content" class="doc" tabindex="-1">
     <div class="doc-intro">
-      <p class="doc-kicker">
-        <span>Index</span>
-        <span class="rd-sep" aria-hidden="true">&middot;</span>
-        <span>03</span>
-      </p>
-      <h1 class="doc-title">Public Projects</h1>
+      <h1 class="doc-title">Public Projects <span class="dash" aria-hidden="true">&mdash;</span></h1>
       <p class="doc-lede">
         Selected work from the studio: maps and tools for understanding
         what the Earth holds.
       </p>
-      <p class="doc-note">
-        What's here is the work we can show. There's more on the way.
-      </p>
+      <p class="doc-note">What's here is the work we can show. There's more on the way.</p>
     </div>
 
-    <!-- ── In progress ── -->
-    <section class="project-group" aria-labelledby="g-progress">
-      <h2 class="group-title" id="g-progress">
-        <span class="status status--progress"><span class="status-dot" aria-hidden="true"></span>In progress</span>
-      </h2>
+    <ul class="chips" aria-label="Jump to a project">
+      <li><a class="chip" href="#p-owb"><span>Vineyard Map</span> <span class="chip-meta">&mdash; In progress</span></a></li>
+      <li><a class="chip" href="#p-flyover"><span>AVA Flyover</span> <span class="chip-meta">&mdash; Finished</span></a></li>
+      <li><a class="chip" href="#p-more"><span>More</span> <span class="chip-meta">&mdash; In development</span></a></li>
+    </ul>
 
-      <article class="panel" aria-labelledby="p-owb">
-        <p class="project-index">Project &middot; 01</p>
-        <h3 id="p-owb">Oregon Wine Board Vineyard Map</h3>
-        <p class="project-client">Contract work for the <a href="https://www.oregonwine.org">Oregon Wine Board</a></p>
-        <p>
-          A map of every vineyard in Oregon, and the data to understand
-          them. We ran a statewide analysis to find each one, outlined it,
-          and set it against the climate, terrain and soil that shape it.
-          A portal lets wineries add what only they know, building a
-          database of Oregon vineyards unlike anything that has existed
-          before.
-        </p>
+    <section class="section" aria-labelledby="s-work">
+      <h2 class="section-title" id="s-work">Work</h2>
 
-        <h4 class="breakdown-title">What it does</h4>
-        <ul class="breakdown">
-          <li>
-            <strong>Finds every vineyard.</strong> A machine learning model
-            trained on the fingerprint of a vineyard, its long, evenly
-            spaced rows of trellised vines, scans the whole state from
-            above. The map starts from a complete inventory rather than a
-            list of the ones already known.
-          </li>
-          <li>
-            <strong>Traces the true footprint.</strong> Each vineyard is
-            mapped to its actual boundary rather than a dot on a map, and
-            placed within the AVA that surrounds it.
-          </li>
-          <li>
-            <strong>Adds the ground, climate and soil.</strong> Elevation,
-            slope, aspect, long-term climate normals, vintage-by-vintage
-            weather and soil data sit alongside each vineyard, so the
-            conditions it grows in are on the same map as the vineyard
-            itself.
-          </li>
-          <li>
-            <strong>Opens it to wineries.</strong> Through a winery portal,
-            growers and producers claim their vineyards and add the details
-            only they know, the things no analysis can see from above.
-          </li>
-          <li>
-            <strong>Builds one shared record.</strong> The statewide
-            analysis and the wineries' own input feed a single database,
-            where every site in Oregon can be understood and compared on
-            the same footing.
-          </li>
-        </ul>
+      <article class="entry" id="p-owb" aria-labelledby="t-owb">
+        <div class="entry-head">
+          <p class="entry-label status status--progress"><span class="status-dot" aria-hidden="true"></span>In progress &middot; 01</p>
+          <h3 class="entry-title" id="t-owb">Oregon Wine Board Vineyard Map</h3>
+          <p class="entry-client">Contract work for the <a href="https://www.oregonwine.org">Oregon Wine Board</a></p>
+        </div>
+        <div class="plate" style="--plate-color: var(--color-crimson); --cx: 70%; --cy: 30%;" aria-hidden="true"><span class="plate-cap">Oregon</span></div>
+        <div class="entry-body">
+          <p>
+            A map of every vineyard in Oregon, and the data to understand
+            them. We ran a statewide analysis to find each one, outlined it,
+            and set it against the climate, terrain and soil that shape it.
+            A portal lets wineries add what only they know, building a
+            database of Oregon vineyards unlike anything that has existed
+            before.
+          </p>
+          <details class="more">
+            <summary>More info</summary>
+            <ul class="breakdown">
+              <li>
+                <strong>Finds every vineyard.</strong> A machine learning model
+                trained on the fingerprint of a vineyard, its long, evenly
+                spaced rows of trellised vines, scans the whole state from
+                above. The map starts from a complete inventory rather than a
+                list of the ones already known.
+              </li>
+              <li>
+                <strong>Traces the true footprint.</strong> Each vineyard is
+                mapped to its actual boundary rather than a dot on a map, and
+                placed within the AVA that surrounds it.
+              </li>
+              <li>
+                <strong>Adds the ground, climate and soil.</strong> Elevation,
+                slope, aspect, long-term climate normals, vintage-by-vintage
+                weather and soil data sit alongside each vineyard, so the
+                conditions it grows in are on the same map as the vineyard
+                itself.
+              </li>
+              <li>
+                <strong>Opens it to wineries.</strong> Through a winery portal,
+                growers and producers claim their vineyards and add the details
+                only they know, the things no analysis can see from above.
+              </li>
+              <li>
+                <strong>Builds one shared record.</strong> The statewide
+                analysis and the wineries' own input feed a single database,
+                where every site in Oregon can be understood and compared on
+                the same footing.
+              </li>
+            </ul>
+          </details>
+          <span class="pill pill--static">Not yet public</span>
+        </div>
+      </article>
 
-        <p class="project-note">Not yet public. More here once it launches.</p>
+      <article class="entry" id="p-flyover" aria-labelledby="t-flyover">
+        <div class="entry-head">
+          <p class="entry-label status"><span class="status-dot" aria-hidden="true"></span>Finished &middot; 02</p>
+          <h3 class="entry-title" id="t-flyover">AVA Flyover</h3>
+          <p class="entry-client">Willamette Valley AVA tour, built for the <a href="https://willamettewines.com">Willamette Valley Wineries Association</a></p>
+        </div>
+        <div class="plate" style="--plate-color: var(--color-electric-blue); --cx: 25%; --cy: 65%;" aria-hidden="true"><span class="plate-cap">Willamette</span></div>
+        <div class="entry-body">
+          <p>
+            A guided flight through the Willamette Valley and the 11 AVAs
+            nested inside it. On a paper map the valley's appellations are a
+            tangle of overlapping boundaries. The flyover turns them into a
+            tour you scroll through, one place at a time, so you can see how
+            the valley fits together.
+          </p>
+          <details class="more">
+            <summary>More info</summary>
+            <ul class="breakdown">
+              <li>
+                <strong>Starts wide.</strong> The tour opens on the globe and
+                flies down into Oregon, so you begin with where the valley sits
+                in the world.
+              </li>
+              <li>
+                <strong>Flies AVA by AVA.</strong> As you scroll, the camera
+                moves north to south over 3D terrain, from the Tualatin Hills to
+                the Lower Long Tom, and outlines each AVA as it arrives.
+              </li>
+              <li>
+                <strong>Profiles each stop.</strong> Every AVA gets a short card
+                with its key figures: the year it was established, how many
+                wineries and vineyards it holds, and the grapes planted there.
+              </li>
+              <li>
+                <strong>Shows the lay of the land.</strong> Seen from the air,
+                the hills, ridges and gaps that separate one AVA from the next
+                become obvious in a way a flat map can't show.
+              </li>
+            </ul>
+            <dl class="spec">
+              <dt>Coverage</dt>
+              <dd>Willamette Valley and its 11 nested AVAs</dd>
+              <dt>Built with</dt>
+              <dd>MapLibre GL, React, 3D terrain tiles</dd>
+            </dl>
+          </details>
+          <a class="pill" href="https://terranthro-wvwa-avatour.vercel.app">
+            Take the flyover <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
       </article>
     </section>
 
-    <!-- ── Finished ── -->
-    <section class="project-group" aria-labelledby="g-finished">
-      <h2 class="group-title" id="g-finished">
-        <span class="status"><span class="status-dot" aria-hidden="true"></span>Finished</span>
-      </h2>
-
-      <article class="panel" aria-labelledby="p-flyover">
-        <p class="project-index">Project &middot; 02</p>
-        <h3 id="p-flyover">AVA Flyover</h3>
-        <p class="project-client">Willamette Valley AVA tour, built for the <a href="https://willamettewines.com">Willamette Valley Wineries Association</a></p>
-        <p>
-          A guided flight through the Willamette Valley and the 11 AVAs
-          nested inside it. On a paper map the valley's appellations are a
-          tangle of overlapping boundaries. The flyover turns them into a
-          tour you scroll through, one place at a time, so you can see how
-          the valley fits together.
-        </p>
-
-        <h4 class="breakdown-title">What it does</h4>
-        <ul class="breakdown">
-          <li>
-            <strong>Starts wide.</strong> The tour opens on the globe and
-            flies down into Oregon, so you begin with where the valley sits
-            in the world.
-          </li>
-          <li>
-            <strong>Flies AVA by AVA.</strong> As you scroll, the camera
-            moves north to south over 3D terrain, from the Tualatin Hills to
-            the Lower Long Tom, and outlines each AVA as it arrives.
-          </li>
-          <li>
-            <strong>Profiles each stop.</strong> Every AVA gets a short card
-            with its key figures: the year it was established, how many
-            wineries and vineyards it holds, and the grapes planted there.
-          </li>
-          <li>
-            <strong>Shows the lay of the land.</strong> Seen from the air,
-            the hills, ridges and gaps that separate one AVA from the next
-            become obvious in a way a flat map can't show.
-          </li>
-        </ul>
-
-        <dl class="spec">
-          <dt>Coverage</dt>
-          <dd>Willamette Valley and its 11 nested AVAs</dd>
-          <dt>Built with</dt>
-          <dd>MapLibre GL, React, 3D terrain tiles</dd>
-        </dl>
-        <a class="project-link" href="https://terranthro-wvwa-avatour.vercel.app">
-          Take the AVA Flyover <span class="arrow" aria-hidden="true">&rarr;</span>
-        </a>
+    <section class="section" aria-labelledby="s-more">
+      <h2 class="section-title" id="s-more">In development</h2>
+      <article class="entry" id="p-more">
+        <div class="entry-head">
+          <p class="entry-label status status--dev"><span class="status-dot" aria-hidden="true"></span>Coming soon</p>
+          <h3 class="entry-title">Atlases &amp; data tools</h3>
+        </div>
+        <div class="plate" style="--plate-color: var(--color-violet); --cx: 60%; --cy: 55%;" aria-hidden="true"><span class="plate-cap">Private beta</span></div>
+        <div class="entry-body">
+          <p>
+            Behind these are several more maps and tools in development and
+            private beta, from regional atlases to data tools.
+            They'll join this page as they launch.
+          </p>
+          <p>
+            We're always looking for the cutting edge, and always looking
+            for beta testers. Want an early look, or have something you'd
+            like us to build? <a href="mailto:hayden@terranthro.com">Get in touch</a>.
+          </p>
+          <a class="pill" href="mailto:hayden@terranthro.com">Get in touch <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
       </article>
-    </section>
-
-    <!-- ── Beyond the public list ── -->
-    <section class="project-group" aria-labelledby="g-more">
-      <h2 class="group-title" id="g-more">
-        <span class="status status--dev"><span class="status-dot" aria-hidden="true"></span>In development</span>
-      </h2>
-      <div class="panel">
-        <p>
-          Behind these are several more maps and tools in development and
-          private beta, from regional atlases to data tools.
-          They'll join this page as they launch.
-        </p>
-        <p>
-          Want an early look, or have something you'd like us to build?
-          <a href="mailto:hayden@terranthro.com">Get in touch</a>.
-        </p>
-      </div>
     </section>
   </main>
 

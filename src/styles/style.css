@@ -231,28 +231,29 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: var(--space-6);
+  /* Left edge lines up with the content pages' 1120px column. */
+  padding: var(--space-6) max(var(--space-2), calc((100vw - 1120px) / 2 + var(--space-2)));
   z-index: 2;
   pointer-events: none;
-  text-align: center;
+  text-align: left;
 }
 
 .wordmark {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(48px, 9vw, 104px);
-  letter-spacing: 0.12em;
+  font-size: clamp(44px, 10vw, 128px);
+  letter-spacing: 0.06em;
   line-height: 1;
   color: var(--color-parchment);
   margin: 0 0 var(--space-3);
   pointer-events: auto;
   cursor: default;
   transition: letter-spacing 0.8s var(--ease-out);
-  /* a hair of inset shadow on the type itself? brand says no shadows on type. skip. */
 }
-.wordmark:hover { letter-spacing: 0.16em; }
+.wordmark:hover { letter-spacing: 0.09em; }
+.wordmark .dash { color: var(--color-electric-blue); }
 
 .descriptor {
   font-family: var(--font-display);
@@ -260,9 +261,9 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   font-size: clamp(16px, 1.8vw, 21px);
   line-height: 1.65;
-  color: var(--color-muted-text);
+  color: var(--color-parchment);
   text-shadow: var(--halo);
-  max-width: 540px;
+  max-width: 34ch;
   margin: 0 0 var(--space-2);
 }
 
@@ -270,7 +271,7 @@ a { color: inherit; text-decoration: none; }
 .etymology {
   display: flex;
   align-items: baseline;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 4px;
@@ -279,103 +280,42 @@ a { color: inherit; text-decoration: none; }
 }
 .etymology.is-visible { opacity: 1; }
 
-/* Hero nav · sits under the etymology line */
+/* Hero nav · outlined chips, the same as the jump links on the content pages. */
 .hero-nav {
   margin-top: var(--space-4);
   pointer-events: auto;
   animation: fadeUp 1.0s 0.55s var(--ease-out) both;
 }
-/* Grid with equal tracks: both links take the width of the wider one,
- * side by side or stacked. */
-.hero-nav .nav-list {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  justify-content: center;
-  gap: var(--space-2);
-}
+.hero-nav .nav-list { gap: var(--space-2); }
 
-/* Framed hero links · registration-mark corners (the same marks the
- * crosshair draws) signal "this is the control" at the center of the page. */
 .hero-link {
-  --mark: var(--color-muted-text);
-  --mark-x: 20%;   /* horizontal corner strokes · a fifth of the width */
-  --mark-y: 20%;   /* vertical corner strokes · a fifth of the height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  height: 100%;
-  padding: 16px 28px 18px;
-  background:
-    linear-gradient(var(--mark), var(--mark)) top    left  / var(--mark-x) 1px no-repeat,
-    linear-gradient(var(--mark), var(--mark)) top    left  / 1px var(--mark-y) no-repeat,
-    linear-gradient(var(--mark), var(--mark)) top    right / var(--mark-x) 1px no-repeat,
-    linear-gradient(var(--mark), var(--mark)) top    right / 1px var(--mark-y) no-repeat,
-    linear-gradient(var(--mark), var(--mark)) bottom left  / var(--mark-x) 1px no-repeat,
-    linear-gradient(var(--mark), var(--mark)) bottom left  / 1px var(--mark-y) no-repeat,
-    linear-gradient(var(--mark), var(--mark)) bottom right / var(--mark-x) 1px no-repeat,
-    linear-gradient(var(--mark), var(--mark)) bottom right / 1px var(--mark-y) no-repeat,
-    rgb(var(--ink-rgb) / 0.72);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: rgb(var(--ink-rgb) / 0.7);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  border-radius: 2px;
-  text-align: center;
-  transition: --mark-x var(--t-slow) var(--ease-out),
-              --mark-y var(--t-slow) var(--ease-out);
-}
-/* Registered so the stroke lengths animate. */
-@property --mark-x {
-  syntax: '<length-percentage>';
-  inherits: false;
-  initial-value: 20%;
-}
-@property --mark-y {
-  syntax: '<length-percentage>';
-  inherits: false;
-  initial-value: 20%;
-}
-
-.hero-link-index {
+  border: 1px solid var(--color-parchment);
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--color-muted-text);
-}
-.hero-link-label {
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 400;
+  font-size: 14px;
   letter-spacing: 0.08em;
-  line-height: 1.1;
-  color: var(--color-parchment);
-  transition: color var(--t-base) var(--ease-out),
-              text-shadow var(--t-base) var(--ease-out);
-}
-.hero-link-sub {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-muted-text);
-  transition: color var(--t-base) var(--ease-out);
+  color: var(--color-parchment);
+  transition: border-color var(--t-base) var(--ease-out),
+              color var(--t-base) var(--ease-out);
 }
-
+.hero-link-label { text-decoration: underline; text-underline-offset: 3px; }
+.hero-link-index,
+.hero-link-sub { color: var(--color-muted-text); transition: color var(--t-base) var(--ease-out); }
 .hero-link:hover,
 .hero-link:focus-visible {
-  /* Corners grow until they meet: a full frame around the link. */
-  --mark: var(--color-electric-blue);
-  --mark-x: calc(50% + 1px);
-  --mark-y: calc(50% + 1px);
-}
-.hero-link:hover .hero-link-label,
-.hero-link:focus-visible .hero-link-label {
+  border-color: var(--color-electric-blue);
   color: var(--color-electric-blue);
-  text-shadow: var(--glow-blue);
 }
 .hero-link:hover .hero-link-sub,
-.hero-link:focus-visible .hero-link-sub { color: var(--color-parchment); }
+.hero-link:focus-visible .hero-link-sub { color: var(--color-electric-blue); }
 
 .etym-pair {
   display: inline-flex;
@@ -492,11 +432,8 @@ body.is-dragging * { cursor: grabbing !important; }
     gap: 6px;
   }
   .rd-mono, .readout-target { font-size: 10px; }
-  .descriptor { padding: 0 var(--space-3); }
-  .hero-nav .nav-list { grid-auto-flow: row; }   /* stack */
-  .hero-link { padding: 14px 24px 16px; }
-  .hero-link-label { font-size: 26px; }
-  .wordmark   { letter-spacing: 0.1em; }
+  .hero-link { font-size: 13px; }
+  .wordmark   { letter-spacing: 0.04em; }
 }
 
 @media (max-width: 480px) {

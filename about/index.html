@@ -42,78 +42,98 @@
 
   <main id="content" class="doc" tabindex="-1">
     <div class="doc-intro">
-      <p class="doc-kicker">
-        <span>Index</span>
-        <span class="rd-sep" aria-hidden="true">&middot;</span>
-        <span>02</span>
-      </p>
-      <h1 class="doc-title">About</h1>
+      <h1 class="doc-title">About <span class="dash" aria-hidden="true">&mdash;</span></h1>
       <p class="doc-lede">
         Terranthro is a geospatial studio in Portland, Oregon, founded by Hayden Smith.
       </p>
     </div>
 
-    <section class="panel" aria-labelledby="a-studio">
-      <h2 id="a-studio">The studio</h2>
-      <p>
-        More and more of us live disconnected from the land around us. We
-        drive past hillsides, vineyards and river valleys every day without
-        knowing why they look the way they do, or what they hold.
-      </p>
-      <p>
-        Terranthro exists to close that gap. We're a mapmaking studio for
-        understanding what the Earth holds: the climate, terrain and soil
-        beneath a place, and the people who work it. Our cartography takes
-        whatever form tells that story best, from interactive maps to
-        pieces you can hang on a wall, and all of it is built on real data
-        about the land.
-      </p>
-      <p>
-        So far most of that work has been in wine, where the ground really
-        does show up in the glass. Slope, aspect, elevation, soil and the
-        warmth of a growing season all leave their mark, and a good map lets
-        you see them side by side.
-      </p>
-    </section>
+    <ul class="chips" aria-label="Jump to a section">
+      <li><a class="chip" href="#a-studio"><span>The studio</span> <span class="chip-meta">&mdash; 01</span></a></li>
+      <li><a class="chip" href="#a-name"><span>The name</span> <span class="chip-meta">&mdash; 02</span></a></li>
+      <li><a class="chip" href="#a-contact"><span>Work with us</span> <span class="chip-meta">&mdash; 03</span></a></li>
+    </ul>
 
-    <section class="panel" aria-labelledby="a-name">
-      <h2 id="a-name">The name</h2>
-      <p class="name-parts">
-        <span class="etym-pair">
-          <span class="etym-term" lang="la">Terra</span>
-          <span class="etym-sep" aria-hidden="true">&middot;</span>
-          <span class="etym-gloss">earth</span>
-        </span>
-        <span class="etym-plus" aria-hidden="true">+</span>
-        <span class="etym-pair">
-          <span class="etym-term" lang="grc-Latn">Anthropos</span>
-          <span class="etym-sep" aria-hidden="true">&middot;</span>
-          <span class="etym-gloss">human</span>
-        </span>
-      </p>
-      <p>
-        The land and the people who live on it. Terranthro maps sit where
-        the two meet: the physical ground on one side, and on the other
-        everything people have built, farmed and drawn across it.
-      </p>
-    </section>
+    <section class="section" aria-labelledby="s-about">
+      <h2 class="section-title" id="s-about">Studio</h2>
 
-    <section class="panel" aria-labelledby="a-contact">
-      <h2 id="a-contact">Work with us</h2>
-      <p>
-        If it happens on the ground, we can map it. Bring us a region, a
-        dataset or a question you can't answer yet. One vineyard or an
-        entire state, clean data or none at all, we'll find what's there
-        and build the map that shows it.
-      </p>
-      <p>
-        We're also glad to hear from people who want to build this kind of
-        work with us. Send a résumé and a note about what draws you to it.
-      </p>
-      <p>
-        Either way, email
-        <a href="mailto:hayden@terranthro.com">hayden@terranthro.com</a>.
-      </p>
+      <article class="entry" id="a-studio" aria-labelledby="t-studio">
+        <div class="entry-head">
+          <p class="entry-label">01</p>
+          <h3 class="entry-title" id="t-studio">The studio</h3>
+        </div>
+        <div class="plate plate--map" id="portland-map" role="region" aria-label="Map of Portland, Oregon. Drag to pan, use the plus and minus buttons to zoom."><span class="plate-cap">Portland, OR</span></div>
+        <div class="entry-body">
+          <p>
+            More and more of us live disconnected from the land around us. We
+            drive past hillsides, vineyards and river valleys every day without
+            knowing why they look the way they do, or what they hold.
+          </p>
+          <p>
+            Terranthro exists to close that gap. We're a mapmaking studio for
+            understanding what the Earth holds: the climate, terrain and soil
+            beneath a place, and the people who work it. Our cartography takes
+            whatever form tells that story best, from interactive maps to
+            pieces you can hang on a wall, and all of it is built on real data
+            about the land.
+          </p>
+          <p>
+            So far most of that work has been in wine, where the ground really
+            does show up in the glass. Slope, aspect, elevation, soil and the
+            warmth of a growing season all leave their mark, and a good map lets
+            you see them side by side.
+          </p>
+        </div>
+      </article>
+
+      <article class="entry" id="a-name" aria-labelledby="t-name">
+        <div class="entry-head">
+          <p class="entry-label">02</p>
+          <h3 class="entry-title" id="t-name">The name</h3>
+        </div>
+        <div class="plate" style="--plate-color: var(--color-amber); --cx: 70%; --cy: 35%;" aria-hidden="true"><span class="plate-cap">Terra + Anthropos</span></div>
+        <div class="entry-body">
+          <p class="name-parts">
+            <span class="etym-pair">
+              <span class="etym-term" lang="la">Terra</span>
+              <span class="etym-sep" aria-hidden="true">&middot;</span>
+              <span class="etym-gloss">earth</span>
+            </span>
+            <span class="etym-plus" aria-hidden="true">+</span>
+            <span class="etym-pair">
+              <span class="etym-term" lang="grc-Latn">Anthropos</span>
+              <span class="etym-sep" aria-hidden="true">&middot;</span>
+              <span class="etym-gloss">human</span>
+            </span>
+          </p>
+          <p>
+            The land and the people who live on it. Terranthro maps sit where
+            the two meet: the physical ground on one side, and on the other
+            everything people have built, farmed and drawn across it.
+          </p>
+        </div>
+      </article>
+
+      <article class="entry" id="a-contact" aria-labelledby="t-contact">
+        <div class="entry-head">
+          <p class="entry-label">03</p>
+          <h3 class="entry-title" id="t-contact">Work with us</h3>
+        </div>
+        <div class="plate" style="--plate-color: var(--color-violet); --cx: 50%; --cy: 50%;" aria-hidden="true"><span class="plate-cap">Say hello</span></div>
+        <div class="entry-body">
+          <p>
+            If it happens on the ground, we can map it. Bring us a region, a
+            dataset or a question you can't answer yet. One vineyard or an
+            entire state, clean data or none at all, we'll find what's there
+            and build the map that shows it.
+          </p>
+          <p>
+            We're also glad to hear from people who want to build this kind of
+            work with us. Send a résumé and a note about what draws you to it.
+          </p>
+          <a class="pill" href="mailto:hayden@terranthro.com">Email us <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
     </section>
   </main>
 

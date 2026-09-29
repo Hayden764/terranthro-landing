@@ -8,6 +8,8 @@
 
 import { initTerrain } from './terrain.js';
 import { initTheme }   from './theme.js';
+import { initPortlandMap } from './portland-map.js';
 
 initTheme();
 initTerrain(document.getElementById('terrain'), { drag: false });
+initPortlandMap(document.getElementById('portland-map'));
