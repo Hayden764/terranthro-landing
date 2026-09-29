@@ -69,7 +69,7 @@ html.page body {
 
 .doc-intro { padding: var(--space-8) 0 var(--space-4); }
 
-/* Oversized headline that trails off into an em-dash. */
+/* Oversized page headline. */
 .doc-title {
   font-family: var(--font-display);
   font-weight: 400;
@@ -80,7 +80,6 @@ html.page body {
   margin-bottom: var(--space-3);
   animation: fadeUp 1.0s 0.15s var(--ease-out) both;
 }
-.doc-title .dash { color: var(--color-electric-blue); }
 
 .doc-lede {
   max-width: 44ch;

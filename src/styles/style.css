@@ -253,7 +253,6 @@ a { color: inherit; text-decoration: none; }
   transition: letter-spacing 0.8s var(--ease-out);
 }
 .wordmark:hover { letter-spacing: 0.09em; }
-.wordmark .dash { color: var(--color-electric-blue); }
 
 .descriptor {
   font-family: var(--font-display);
