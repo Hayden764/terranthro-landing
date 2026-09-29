@@ -187,7 +187,7 @@ export function initTerrain(canvas, { drag = true } = {}) {
   /* ── Input handlers ────────────────────────────────────────────────── */
   function isInteractive(target) {
     if (!target || !target.closest) return false;
-    return !!target.closest('a, button, .wordmark');
+    return !!target.closest('a, button, .wordmark, [contenteditable="true"]');
   }
 
   function onPointerMove(e) {
