@@ -6,10 +6,12 @@
  *   · light/dark toggle in the header
  * ========================================================================= */
 
+import { inject } from '@vercel/analytics';
 import { initTerrain } from './terrain.js';
 import { initTheme }   from './theme.js';
 import { initPortlandMap } from './portland-map.js';
 
+inject();
 initTheme();
 initTerrain(document.getElementById('terrain'), { drag: false });
 initPortlandMap(document.getElementById('portland-map'));
